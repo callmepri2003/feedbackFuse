@@ -95,53 +95,6 @@ The backend API will be available at `http://localhost:8000`
 
 The frontend application will be available at `http://localhost:3000`
 
-## 📡 API Endpoints
-
-### GET /feedback/
-Retrieve all feedback messages ordered by newest first.
-
-**Response Example:**
-```json
-{
-  "count": 2,
-  "results": [
-    {
-      "id": 1,
-      "message": "Great app! Love the simplicity.",
-      "created_at": "2025-06-01T10:30:00Z"
-    },
-    {
-      "id": 2,
-      "message": "Could use better mobile responsiveness",
-      "created_at": "2025-06-01T09:15:00Z"
-    }
-  ]
-}
-```
-
-### POST /feedback/
-Submit a new anonymous feedback message.
-
-**Request Body:**
-```json
-{
-  "message": "This is really helpful, thanks!"
-}
-```
-
-**Response Example:**
-```json
-{
-  "id": 3,
-  "message": "This is really helpful, thanks!",
-  "created_at": "2025-06-01T11:45:00Z"
-}
-```
-
-**Validation:**
-- Message is required
-- Message must be between 1-250 characters
-
 ## 🔧 Development
 
 ### Backend Development
