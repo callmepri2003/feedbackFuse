@@ -20,23 +20,15 @@ class FeedbackListView(generics.ListCreateAPIView):
     serializer_class = FeedbackSerializer
     
     def list(self, request, *args, **kwargs):
-        try:
-            queryset = self.get_queryset()
-            serializer = self.get_serializer(queryset, many=True)
-            
-            response_data = {
-                'count': queryset.count(),
-                'results': serializer.data
-            }
-            
-            return Response(response_data, status=status.HTTP_200_OK)
-            
-        except Exception as e:
-            logger.error(f"Error retrieving feedback: {str(e)}")
-            return Response(
-                {'error': 'Internal server error'}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        
+        response_data = {
+            'count': queryset.count(),
+            'results': serializer.data
+        }
+        
+        return Response(response_data, status=status.HTTP_200_OK)
     
     def create(self, request, *args, **kwargs):
         try:
