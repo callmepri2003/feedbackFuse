@@ -8,7 +8,7 @@ export default function FeedbackApp() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [apiUrl, setApiUrl] = useState('http://127.0.0.1:8000/api');
+  const [apiUrl, setApiUrl] = useState('http://192.168.110.155:8000/api');
 
   // Load feedback on component mount
   useEffect(() => {
@@ -227,23 +227,6 @@ export default function FeedbackApp() {
         <div>
           <h1 style={styles.title}>Feedback Portal</h1>
           <p style={styles.subtitle}>Share your thoughts and read what others have to say</p>
-        </div>
-
-        {/* API URL Configuration */}
-        <div style={styles.card}>
-          <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.5rem'}}>
-            API Base URL:
-          </label>
-          <input
-            type="text"
-            value={apiUrl}
-            onChange={(e) => setApiUrl(e.target.value)}
-            placeholder="https://your-api-domain.com"
-            style={styles.input}
-          />
-          <p style={{fontSize: '0.75rem', color: '#6b7280', marginTop: '0.5rem'}}>
-            Update this to point to your actual API endpoint
-          </p>
         </div>
 
         {/* Feedback Form */}
