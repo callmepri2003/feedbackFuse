@@ -33,3 +33,9 @@ feedbackFuseFrontend/.nuxt/
 
 # Windows
 Thumbs.db
+
+.vscode/
+# Coverage reports
+.coverage
+htmlcov/
+coverage.xml
