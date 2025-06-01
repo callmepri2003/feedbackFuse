@@ -1,12 +1,8 @@
-import { useState } from 'react'
-import './App.css'
-import FeedbackApp from './FeedbackApp'
+import React from 'react';
+import CorkBoardFeedback from './CorkBoardFeedback';
 
 function App() {
-
-  return (
-    <FeedbackApp></FeedbackApp>
-  )
+  return <CorkBoardFeedback />;
 }
 
-export default App
+export default App;
