@@ -1,0 +1,222 @@
+openapi: 3.0.3
+info:
+  title: Anonymous Feedback Wall API
+  description: Simple API for posting and retrieving anonymous feedback messages
+  version: 1.0.0
+  contact:
+    name: Feedback Wall API
+servers:
+  - url: http://localhost:8000/api
+    description: Development server
+  - url: https://your-domain.com/api
+    description: Production server
+
+paths:
+  /feedback/:
+    get:
+      summary: Get all feedback messages
+      description: Retrieve all feedback messages ordered by newest first
+      tags:
+        - Feedback
+      responses:
+        '200':
+          description: Successfully retrieved feedback messages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Total number of feedback messages
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FeedbackMessage'
+              example:
+                count: 2
+                results:
+                  - id: 1
+                    message: "Great app! Love the simplicity."
+                    created_at: "2025-06-01T10:30:00Z"
+                  - id: 2
+                    message: "Could use better mobile responsiveness"
+                    created_at: "2025-06-01T09:15:00Z"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Submit new feedback
+      description: Post a new anonymous feedback message
+      tags:
+        - Feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - message
+              properties:
+                message:
+                  type: string
+                  minLength: 1
+                  maxLength: 250
+                  description: The feedback message content
+            example:
+              message: "This is really helpful, thanks!"
+      responses:
+        '201':
+          description: Feedback message created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackMessage'
+              example:
+                id: 3
+                message: "This is really helpful, thanks!"
+                created_at: "2025-06-01T11:45:00Z"
+        '400':
+          description: Bad request - invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "Message is required and must be between 1-250 characters"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /feedback/{id}/:
+    delete:
+      summary: Delete feedback message (Admin only)
+      description: Delete a specific feedback message by ID
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The feedback message ID to delete
+      security:
+        - AdminAuth: []
+      responses:
+        '204':
+          description: Feedback message deleted successfully
+        '401':
+          description: Unauthorized - invalid admin credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Feedback message not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /admin/auth/:
+    post:
+      summary: Admin authentication
+      description: Authenticate as admin to access moderation features
+      tags:
+        - Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+              properties:
+                password:
+                  type: string
+                  description: Admin password
+            example:
+              password: "admin_password_123"
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token for admin operations
+                  message:
+                    type: string
+              example:
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                message: "Authentication successful"
+        '401':
+          description: Invalid password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "Invalid admin password"
+
+components:
+  schemas:
+    FeedbackMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the feedback message
+        message:
+          type: string
+          maxLength: 250
+          description: The feedback message content
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the message was created
+      required:
+        - id
+        - message
+        - created_at
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message describing what went wrong
+      required:
+        - error
+
+  securitySchemes:
+    AdminAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from /admin/auth/ endpoint
+
+tags:
+  - name: Feedback
+    description: Operations for feedback messages
+  - name: Admin
+    description: Administrative operations for moderation
