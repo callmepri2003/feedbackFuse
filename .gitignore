@@ -1,0 +1,35 @@
+# Root-level ignores
+*.log
+*.env
+.env.*
+__pycache__/
+.DS_Store
+node_modules/
+
+# Python: feedbackFuseBackend
+feedbackFuseBackend/__pycache__/
+feedbackFuseBackend/**/*.py[cod]
+feedbackFuseBackend/*.sqlite3
+feedbackFuseBackend/db.sqlite3
+feedbackFuseBackend/.venv/
+feedbackFuseBackend/venv/
+feedbackFuseBackend/*.pyc
+feedbackFuseBackend/staticfiles/
+feedbackFuseBackend/media/
+
+# VSCode
+.vscode/
+
+# Frontend: feedbackFuseFrontend
+feedbackFuseFrontend/node_modules/
+feedbackFuseFrontend/build/
+feedbackFuseFrontend/dist/
+feedbackFuseFrontend/.env
+feedbackFuseFrontend/.next/
+feedbackFuseFrontend/.nuxt/
+
+# macOS
+*.DS_Store
+
+# Windows
+Thumbs.db
