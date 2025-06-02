@@ -2,6 +2,10 @@
 
 A modern feedback collection application built with Django REST Framework and React. FeedbackFuse allows users to submit anonymous feedback messages and view all submitted feedback in a clean, responsive interface.
 
+## Preview
+
+![FeedbackFuse Screenshot](screenshot.png)
+
 ## 🚀 Features
 
 - **Anonymous Feedback Submission**: Users can submit feedback without registration
